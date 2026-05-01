@@ -20,18 +20,20 @@ Thumbs.db
 *.swp
 
 # ---- Data ----
-# The raw API payloads (~3.5 GB) and processed artifacts are shipped
-# via GitHub Releases as zip archives, NOT committed to git.
-# See README.md for download instructions.
 data/raw/**
 data/processed/**
 data/duckdb/**
 data/OLD_processed/**
 
-# Keep the folder structure on fresh clones so scripts don't crash.
+# Keep folder structure on fresh clones so scripts don't crash.
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !data/duckdb/.gitkeep
+
+# Processed parquets + numpy artifacts ARE tracked (via Git LFS).
+# Tracked patterns are configured in .gitattributes.
+!data/processed/*.parquet
+!data/processed/*.npy
 
 # ---- Build / archive artifacts (never commit these) ----
 *.zip
@@ -41,9 +43,6 @@ data/OLD_processed/**
 *.7z
 *.rar
 *.duckdb
-*.parquet
-*.npy
-*.npz
 
 # ---- Logs / misc ----
 *.log
