@@ -1,0 +1,25 @@
+[project]
+name = "fandom-project"
+version = "0.1.0"
+description = "Reddit and YouTube fandom overlap data pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "duckdb>=1.2.2",
+  "google-api-python-client>=2.170.0",
+  "jupyter>=1.1.1",
+  "matplotlib>=3.10.0",
+  "nbformat>=5.10.4",
+  "polars>=1.29.0",
+  "praw>=7.8.1",
+  "pyarrow>=20.0.0",
+  "python-dotenv>=1.1.0",
+  "requests>=2.31.0",
+  "scikit-learn>=1.6.1",
+  "seaborn>=0.13.2",
+  "streamlit>=1.30.0",
+  "tqdm>=4.67.1",
+]
+
+[tool.uv]
+package = false

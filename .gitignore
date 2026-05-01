@@ -1,0 +1,50 @@
+# ---- Python / env ----
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---- OS / editor ----
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ---- Data ----
+# The raw API payloads (~3.5 GB) and processed artifacts are shipped
+# via GitHub Releases as zip archives, NOT committed to git.
+# See README.md for download instructions.
+data/raw/**
+data/processed/**
+data/duckdb/**
+data/OLD_processed/**
+
+# Keep the folder structure on fresh clones so scripts don't crash.
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/duckdb/.gitkeep
+
+# ---- Build / archive artifacts (never commit these) ----
+*.zip
+*.tar
+*.tar.gz
+*.tar.zst
+*.7z
+*.rar
+*.duckdb
+*.parquet
+*.npy
+*.npz
+
+# ---- Logs / misc ----
+*.log
+.cache/
