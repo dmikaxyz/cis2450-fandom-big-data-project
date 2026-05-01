@@ -26,6 +26,63 @@ uv sync
 uv run python src/check_setup.py
 ```
 
+> Credentials are only required if you want to re-run the collectors. To explore the existing data, dashboard, or notebooks you can skip the API setup and just download the data archives below.
+
+## Get The Data
+
+The project has two data tiers, neither of which lives in regular git:
+
+| Tier | Location | Size | How to fetch |
+|---|---|---|---|
+| Processed parquets + CF artifacts (`data/processed/`) | **Git LFS** in this repo | ~156 MB | Comes down automatically on `git clone` when `git-lfs` is installed |
+| Raw API payloads (`data/raw/`) | **GitHub Release asset** | 482 MB zipped (~3.5 GB unzipped) | Download manually from the Releases page (link below) |
+
+### 1. Clone the repo (with Git LFS)
+
+```bash
+# install git-lfs once if you don't have it
+sudo apt install git-lfs            # Debian / Ubuntu / WSL
+brew install git-lfs                # macOS
+git lfs install                     # one-time per machine
+
+git clone git@github.com:dmikaxyz/cis2450-fandom-big-data-project.git
+cd cis2450-fandom-big-data-project
+```
+
+If a `data/processed/*.parquet` opens as a small text "pointer" file, your clone didn't fetch LFS blobs. Run:
+
+```bash
+git lfs pull
+```
+
+### 2. Download the raw data archive
+
+The raw API payloads are too big for git, so they're attached to the project's GitHub Release.
+
+- **Releases page:** <https://github.com/dmikaxyz/cis2450-fandom-big-data-project/releases/latest>
+- **Direct download:** [`fandom-project-raw-data.zip`](https://github.com/dmikaxyz/cis2450-fandom-big-data-project/releases/latest/download/fandom-project-raw-data.zip) (482 MB)
+- **SHA256:** `7bf32e6e9f3dd138c0d1ac9d72c60ba1bf5a9a83077da9a5203646b19d7b7e03`
+
+From the repo root:
+
+```bash
+# (optional) verify integrity
+sha256sum fandom-project-raw-data.zip
+
+# extract into data/raw/ (the zip preserves the folder structure)
+unzip fandom-project-raw-data.zip
+```
+
+After this you should have populated `data/raw/youtube_runs/`, `data/raw/bluesky_runs/`, and the top-level YouTube/Bluesky JSON files.
+
+### 3. (Optional) Rebuild the DuckDB warehouse
+
+`data/duckdb/fandom.duckdb` is a build artifact and is **not** distributed. Once the parquets are in place, regenerate it with:
+
+```bash
+uv run python src/load_duckdb.py
+```
+
 ## API Setup
 
 ### YouTube
@@ -68,7 +125,7 @@ Key scripts in `src/`:
 - `build_bluesky_tables.py` — turns a saved `bluesky_run_*` directory into normalized Parquet tables (`bluesky_posts`, `bluesky_users`, `bluesky_user_ip_activity`).
 - `load_duckdb.py` — registers every available processed Parquet file as a DuckDB view in `data/duckdb/fandom.duckdb`.
 
-IP catalog and per-platform queries live in `src/ip_config.py`.
+IP catalog and per-platform queries are defined in `src/ip_config.py`.
 
 ## Run The YouTube Pipeline
 
